@@ -1,0 +1,22 @@
+{
+  "name": "domaintest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:chrome": "playwright test --browser=chrome",
+    "discountTest": "playwright test applyDiscountCode.test.js",
+    "paymentTest": "playwright test paymentInformationValidation.test.js",
+    "discountTest:headed": "playwright test applyDiscountCode.test.js --headed",
+    "paymentTest:headed": "playwright test paymentInformationValidation.test.js --headed"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.48.2",
+    "@types/node": "^22.8.4"
+  }
+}

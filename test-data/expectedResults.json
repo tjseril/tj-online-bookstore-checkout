@@ -1,0 +1,10 @@
+{
+    "applyDiscountCode": {
+        "invalidDiscountCodeError": "Invalid discount code"
+    },
+    "paymentInformationValidation": {
+        "invalidCardNumberError": "Invalid credit card number",
+        "invalidExpiryError": "Invalid expiration date",
+        "successMessage": "Checkout successful"
+    }
+}

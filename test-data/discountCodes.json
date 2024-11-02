@@ -1,0 +1,5 @@
+{
+    "validDiscountCode": "SAVE20",
+    "invalidDiscountCode": "INVALIDCODE",
+    "lowercaseDiscountCode": "save20"
+}

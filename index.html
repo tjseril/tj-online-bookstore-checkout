@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Bookstore - Checkout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+
+        .total {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .error {
+            color: red;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button.disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Checkout</h1>
+        <!-- Cart Section -->
+        <h2>Your Cart</h2>
+        <ul>
+            <li>
+                Book Title 1 - $20 <span id="out-of-stock" style="display:none;">(Out of stock)</span>
+            </li>
+            <li>
+                Book Title 2 - $30
+            </li>
+        </ul>
+        <p class="total">Total: $50.00</p>
+        <!-- Discount Code Section -->
+        <div class="form-group">
+            <label for="discount-code">Discount Code:</label>
+            <input type="text" id="discount-code" placeholder="Enter
+    discount code">
+            <button id="apply-discount">Apply Discount</button>
+            <p class="error" id="discount-error" style="display:none;">Invalid discount code</p>
+        </div>
+        <!-- Payment Information Section -->
+        <h2>Payment Information</h2>
+        <div class="form-group">
+            <label for="credit-card">Credit Card Number:</label>
+            <input type="text" id="credit-card" placeholder="Enter 16-digit
+    credit card number">
+            <p class="error" id="card-error" style="display:none;">Invalid
+                credit card number</p>
+        </div>
+        <div class="form-group">
+            <label for="expiry-date">Expiry Date:</label>
+            <input type="text" id="expiry-date" placeholder="MM/YY">
+            <p class="error" id="expiry-error" style="display:none;">Invalid
+                expiration date</p>
+        </div>
+        <!-- Checkout Button -->
+        <button id="checkout" class="disabled" disabled>Checkout</button>
+        <p class="error" id="checkout-error" style="display:none;">Please
+            fix the errors above to proceed with checkout</p>
+        <!-- Success message -->
+        <p id="success-message" style="display:none; color:green;">Checkout
+            successful! Thank you for your purchase.</p>
+    </div>
+    <script>
+        // JavaScript to simulate some of the business logic
+        let total = 50;
+        let isDiscountApplied = false;
+        // Discount Code Application
+        document.getElementById('apply-discount').addEventListener('click',
+            function () {
+                const discountCode =
+                    document.getElementById('discount-code').value;
+                const discountError = document.getElementById('discount-error');
+                if (discountCode === "SAVE20") {
+                    total = total * 0.8; // Apply 20% discount
+                    document.querySelector('.total').textContent = `Total:
+$${total.toFixed(2)}`;
+                    isDiscountApplied = true;
+                    discountError.style.display = 'none';
+                } else {
+                    discountError.style.display = 'block';
+                }
+            });
+        // Payment validation
+        document.getElementById('credit-card').addEventListener('blur',
+            function () {
+                const cardNumber = document.getElementById('credit-card').value;
+                const cardError = document.getElementById('card-error');
+                if (cardNumber.length !== 16 || isNaN(cardNumber)) {
+                    cardError.style.display = 'block';
+                } else {
+                    cardError.style.display = 'none';
+                }
+            });
+        document.getElementById('expiry-date').addEventListener('blur',
+            function () {
+                const expiryDate = document.getElementById('expiry-date').value;
+                const expiryError = document.getElementById('expiry-error');
+                const [month, year] = expiryDate.split('/').map(Number);
+                const currentDate = new Date();
+                const currentYear = currentDate.getFullYear() % 100; // Get last two digits of current year
+                const currentMonth = currentDate.getMonth() + 1; // Months are 0 - indexed
+                if (
+                    !month || !year ||
+                    month < 1 || month > 12 ||
+                    year < currentYear || (year === currentYear && month <
+                        currentMonth)
+                ) {
+                    expiryError.style.display = 'block';
+                } else {
+                    expiryError.style.display = 'none';
+                }
+            });
+        // Checkout Button Enable/Disable Logic
+        document.getElementById('credit-card').addEventListener('input',
+            updateCheckoutState);
+        document.getElementById('expiry-date').addEventListener('input',
+            updateCheckoutState);
+        function updateCheckoutState() {
+            const cardNumber = document.getElementById('credit-card').value;
+            const expiryDate = document.getElementById('expiry-date').value;
+            const cardError =
+                document.getElementById('card-error').style.display;
+            const expiryError =
+                document.getElementById('expiry-error').style.display;
+            if (cardNumber.length === 16 && expiryDate && cardError ===
+                'none' && expiryError === 'none') {
+                document.getElementById('checkout').disabled = false;
+                document.getElementById('checkout').classList.remove('disabled');
+            } else {
+                document.getElementById('checkout').disabled = true;
+                document.getElementById('checkout').classList.add('disabled');
+            }
+        }
+        // Checkout button click event
+        document.getElementById('checkout').addEventListener('click',
+            function () {
+                const cardError =
+                    document.getElementById('card-error').style.display;
+                const expiryError =
+                    document.getElementById('expiry-error').style.display;
+                if (cardError === 'none' && expiryError === 'none') {
+                    document.getElementById('success-message').style.display =
+                        'block';
+                    document.getElementById('checkout-error').style.display =
+                        'none';
+                } else {
+                    document.getElementById('checkout-error').style.display =
+                        'block';
+                }
+            });
+    </script>
+</body>
+
+</html>
