@@ -4,17 +4,17 @@
 
 There seems to be a missing step in the first two acceptance criteria in order to achieve the end result, which is to click the Apply Discount button. If this is added as such...
 
-> **GIVEN** I have an item in my cart
-> **AND** the total amount is $50
-> **WHEN** I enter a valid discount code "SAVE20"
-> **AND** I click the Apply Discount button
-> **THEN** the total should be reduced by 20%
+> **GIVEN** I have an item in my cart  
+> **AND** the total amount is $50  
+> **WHEN** I enter a valid discount code "SAVE20"  
+> **AND** I click the Apply Discount button  
+> **THEN** the total should be reduced by 20%  
 >
 >
-> **GIVEN** I have an item in my cart
-> **WHEN** I enter an invalid discount code "INVALIDCODE"
-> **AND** I click the Apply Discount button
-> **THEN** I should see an error message "Invalid discount code" 
+> **GIVEN** I have an item in my cart  
+> **WHEN** I enter an invalid discount code "INVALIDCODE"  
+> **AND** I click the Apply Discount button  
+> **THEN** I should see an error message "Invalid discount code"   
 > **AND** the total amount should remain unchanged
 
 ...then the user story provides the full end-to-end flow.
